@@ -1,0 +1,7 @@
+__pycache__
+models/L2CSNet_gaze360.pkl
+*.jpeg
+*.jpg
+*.webp
+*.mp4
+*.json
