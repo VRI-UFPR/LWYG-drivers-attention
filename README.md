@@ -1,5 +1,6 @@
 ### The official "Look where you’re going: Classifying drivers' attention through 3D gaze estimation" repository
 
+![Gif demo](/demo/low_quality.gif)
 
 ### Run the monitoring system:
 
@@ -14,6 +15,3 @@
 ```bash
 python3 driver_monitoring_system.py --gaze_model ./models/L2CSNet_gaze360.pkl --gpu 0 --video_source {{SOURCE}} --video_output {{OUTPUT}} --distraction_model ./models/gnb.pkl
 ```
-
-
-![Gif demo](/demo/low_quality.gif)
