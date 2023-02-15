@@ -149,14 +149,15 @@ if __name__ == '__main__':
                 img  = img.unsqueeze(0) 
                 
                 # Gaze prediction
-                gaze_yaw, gaze_pitch = gaze_estimation_model(img)
-                pitch_predicted = softmax(gaze_pitch)
-                yaw_predicted = softmax(gaze_yaw)
+                gaze_yaw_layer, gaze_pitch_layer = gaze_estimation_model(img)
+                pitch_bin_probability = softmax(gaze_pitch_layer)
+                yaw_bin_probability = softmax(gaze_yaw_layer)
                 
                 # Get continuous predictions in degrees.
-                pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 4 - 180
-                yaw_predicted = torch.sum(yaw_predicted.data[0] * idx_tensor) * 4 - 180
+                pitch_predicted = torch.sum(pitch_bin_probability.data[0] * idx_tensor) * 4 - 180
+                yaw_predicted = torch.sum(yaw_bin_probability.data[0] * idx_tensor) * 4 - 180
                 
+                # Into radians
                 pitch_predicted= pitch_predicted.cpu().detach().numpy()* np.pi/180.0
                 yaw_predicted= yaw_predicted.cpu().detach().numpy()* np.pi/180.0
 

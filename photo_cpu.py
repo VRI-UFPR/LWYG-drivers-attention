@@ -121,24 +121,29 @@ if __name__ == '__main__':
                 img  = img.unsqueeze(0) 
                 
                 # gaze prediction
-                gaze_pitch, gaze_yaw = model(img)
+                gaze_yaw, gaze_pitch = model(img)
                 
-                
+                print(f"Yaw before: {gaze_yaw}")
                 pitch_predicted = softmax(gaze_pitch)
                 yaw_predicted = softmax(gaze_yaw)
+                print(f"Yaw softmax: {yaw_predicted}")
                 
+
                 # Get continuous predictions in degrees.
-                pitch_predicted = torch.sum(pitch_predicted.data[0] * idx_tensor) * 4 - 180
-                yaw_predicted = torch.sum(yaw_predicted.data[0] * idx_tensor) * 4 - 180
+                pitch_predicted = torch.sum(pitch_predicted.data * idx_tensor) * 4 - 180
+                print(f"Yaw multiplied: {yaw_predicted.data * idx_tensor}")
+                print(f"Yaw sum: {torch.sum(yaw_predicted.data * idx_tensor)}")
+
+                yaw_predicted = torch.sum(yaw_predicted.data * idx_tensor) * 4 - 180
+                print(f"Yaw result: {yaw_predicted}")
+
                 
                 pitch_predicted= pitch_predicted.cpu().detach().numpy()* np.pi/180.0
                 yaw_predicted= yaw_predicted.cpu().detach().numpy()* np.pi/180.0
-                # pitch_predicted= pitch_predicted.cpu().detach().numpy() * 1.0
-                # yaw_predicted= yaw_predicted.cpu().detach().numpy() * 1.0
 
                 
                 cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0,255,0), 2)
-                draw_gaze(x_min,y_min,bbox_width, bbox_height,frame,(pitch_predicted,yaw_predicted),color=(0,0,255), scale=0.5, thickness=10)
+                draw_gaze(x_min,y_min,bbox_width, bbox_height,frame,(yaw_predicted, pitch_predicted),color=(0,0,255), scale=0.5, thickness=10)
                 
                 cv2.putText(frame, f"{pitch_predicted, yaw_predicted}", (x_min,y_min), cv2.FONT_HERSHEY_PLAIN, 2, (255, 255, 255), 2)
 
