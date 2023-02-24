@@ -1,4 +1,4 @@
-### The official "Look where you’re going: Classifying drivers' attention through 3D gaze estimation" repository
+### The official repository for "Look where you’re going: Classifying drivers' attention through 3D gaze estimation"
 
 ![Gif demo](/demo/low_quality.gif)
 
